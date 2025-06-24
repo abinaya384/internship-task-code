@@ -4,58 +4,62 @@ struct Node {
     int data;
     struct Node* next;
 };
-struct Node* createNode(int dataValue) {
+// Create new node
+struct Node* createNode(int value) {
     struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
-    newNode->data = dataValue;
+    newNode->data = value;
     newNode->next = NULL;
     return newNode;
 }
-void insertNode(struct Node** headReference, int dataValue) {
-    struct Node* newNode = createNode(dataValue);
-    if (*headReference == NULL) {
-        *headReference = newNode;
+// Insert at end
+void insertNode(struct Node** head, int value) {
+    struct Node* newNode = createNode(value);
+    if (*head == NULL) {
+        *head = newNode;
         return;
     }
-    struct Node* currentNode = *headReference;
-    while (currentNode->next != NULL) {
-        currentNode = currentNode->next;
-    }
-    currentNode->next = newNode;
+    struct Node* current = *head;
+    while (current->next != NULL)
+        current = current->next;
+    current->next = newNode;
 }
-void reverseLinkedList(struct Node** headReference) {
-    struct Node* previousNode = NULL;
-    struct Node* currentNode = *headReference;
-    struct Node* nextNode = NULL;
-    while (currentNode != NULL) {
-        nextNode = currentNode->next;
-        currentNode->next = previousNode;
-        previousNode = currentNode;
-        currentNode = nextNode;
+// Reverse linked list
+void reverseList(struct Node** head) {
+    struct Node *previous = NULL, *current = *head, *next = NULL;
+    while (current != NULL) {
+        next = current->next;
+        current->next = previous;
+        previous = current;
+        current = next;
     }
-    *headReference = previousNode;
+    *head = previous;
 }
-void printLinkedList(struct Node* headNode) {
-    struct Node* currentNode = headNode;
-    while (currentNode != NULL) {
-        printf("%d -> ", currentNode->data);
-        currentNode = currentNode->next;
+// Print list
+void printList(struct Node* head) {
+    while (head != NULL) {
+        printf("%d -> ", head->data);
+        head = head->next;
     }
     printf("NULL\n");
 }
+// Main function
 int main() {
-    struct Node* headNode = NULL;
-    int totalNodeCount, currentNodeIndex, nodeDataValue;
-    printf("Enter the number of nodes: ");
-    scanf("%d", &totalNodeCount);
-    for (currentNodeIndex = 1; currentNodeIndex <= totalNodeCount; currentNodeIndex++) {
-        printf("Enter value for node %d: ", currentNodeIndex);
-        scanf("%d", &nodeDataValue);
-        insertNode(&headNode, nodeDataValue);
+    struct Node* head = NULL;
+    int inputValue;
+    printf("Enter node values (enter -999 to stop):\n");
+    while (1) {
+        printf("Enter value: ");
+        scanf("%d", &inputValue);
+        if (inputValue == -999)
+            break;
+        insertNode(&head, inputValue);
     }
     printf("\nOriginal linked list: ");
-    printLinkedList(headNode);
-    reverseLinkedList(&headNode);
+    printList(head);
+    reverseList(&head);
     printf("Reversed linked list: ");
-    printLinkedList(headNode);
+    printList(head);
    return 0;
 }
+
+
