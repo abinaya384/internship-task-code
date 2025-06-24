@@ -1,79 +1,48 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-// Define the structure for a singly linked list node
 struct Node {
     int data;
     struct Node* next;
 };
-
-// Function to create a new node with given data
-struct Node* createNode(int dataValue) {
+struct Node* createNode(int inputValue) {
     struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
-    newNode->data = dataValue;
+    newNode->data = inputValue;
     newNode->next = NULL;
     return newNode;
 }
-
-// Function to insert a node at the end of the list
-void insertAtEnd(struct Node** headReference, int dataValue) {
-    struct Node* newNode = createNode(dataValue);
-
-    if (*headReference == NULL) {
-        *headReference = newNode;
-        return;
-    }
-
-    struct Node* currentNode = *headReference;
-    while (currentNode->next != NULL) {
-        currentNode = currentNode->next;
-    }
-
-    currentNode->next = newNode;
-}
-
-// Function to find and print the middle node of the list
-void printMiddleNode(struct Node* headNode) {
-    struct Node* slowPointer = headNode;
-    struct Node* fastPointer = headNode;
-
-    while (fastPointer != NULL && fastPointer->next != NULL) {
-        slowPointer = slowPointer->next;
-        fastPointer = fastPointer->next->next;
-    }
-
-    if (slowPointer != NULL) {
-        printf("The middle node value is: %d\n", slowPointer->data);
+void appendNode(struct Node** headRef, int inputValue) {
+    struct Node* newNode = createNode(inputValue);
+    if (*headRef == NULL) {
+        *headRef = newNode;
+    } else {
+        struct Node* temp = *headRef;
+        while (temp->next) temp = temp->next;
+        temp->next = newNode;
     }
 }
-
-// Function to print the linked list
-void printLinkedList(struct Node* headNode) {
-    struct Node* currentNode = headNode;
-    printf("Linked list: ");
-    while (currentNode != NULL) {
-        printf("%d -> ", currentNode->data);
-        currentNode = currentNode->next;
+struct Node* findMiddle(struct Node* head) {
+    struct Node *slow = head, *fast = head;
+    while (fast && fast->next) {
+        slow = slow->next;
+        fast = fast->next->next;
     }
-    printf("NULL\n");
+    return slow;
 }
-
-// Main function to test the code
 int main() {
-    struct Node* headNode = NULL;
-    int totalNodes, dataValue;
-
-    printf("Enter the number of nodes: ");
-    scanf("%d", &totalNodes);
-
-    for (int nodeIndex = 1; nodeIndex <= totalNodes; nodeIndex++) {
-        printf("Enter value for node %d: ", nodeIndex);
-        scanf("%d", &dataValue);
-        insertAtEnd(&headNode, dataValue);
+    struct Node* head = NULL;
+    int value;
+    printf("Enter node values (enter -999 to stop):\n");
+    while (1) {
+        printf("Enter value: ");
+        scanf("%d", &value);
+        if (value == -999) break;
+        appendNode(&head, value);
     }
-
-    printLinkedList(headNode);
-    printMiddleNode(headNode);
-
+    if (head) {
+        struct Node* midNode = findMiddle(head);
+        printf("\nMiddle node value: %d\n", midNode->data);
+    } else {
+        printf("List is empty.\n");
+    }
     return 0;
 }
