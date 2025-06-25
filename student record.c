@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-struct Student {
+struct Student {                                   // Define a structure to hold student data
     int rollNumber;
     char studentName[50];
     int markSubject1;
@@ -10,18 +10,18 @@ struct Student {
 };
 int main() {
     struct Student studentRecord;
-    printf("Enter Roll Number: ");
+    printf("Enter Roll Number: ");                   // Input student details
     scanf("%d", &studentRecord.rollNumber);
     printf("Enter Name: ");
-    scanf(" %[^\n]", studentRecord.studentName);  
+    scanf(" %[^\n]", studentRecord.studentName);     // Allows input with spaces
     printf("Enter Mark for Subject 1: ");
     scanf("%d", &studentRecord.markSubject1);
     printf("Enter Mark for Subject 2: ");
     scanf("%d", &studentRecord.markSubject2);
     printf("Enter Mark for Subject 3: ");
     scanf("%d", &studentRecord.markSubject3);
-    studentRecord.totalMarks = studentRecord.markSubject1 +studentRecord.markSubject2 +
-                studentRecord.markSubject3;
+     // Calculate total marks
+    studentRecord.totalMarks = studentRecord.markSubject1 +studentRecord.markSubject2 +studentRecord.markSubject3;
     printf("\n--- Student Record ---\n");
     printf("Roll Number : %d\n", studentRecord.rollNumber);
     printf("Name        : %s\n", studentRecord.studentName);
